@@ -1,0 +1,119 @@
+{
+  "locations": [
+    {
+      "id": 1,
+      "name": "Ruins"
+    },
+    {
+      "id": 2,
+      "name": "Cove"
+    }
+  ],
+  "effects": [
+    {
+      "id": 7,
+      "name": "Loot"
+    },
+    {
+      "id": 8,
+      "name": "Bleed"
+    }
+  ],
+  "consumables": [
+    {
+      "id": 5,
+      "name": "Key"
+    },
+    {
+      "id": 6,
+      "name": "Shovel"
+    }
+  ],
+  "curios": [
+    {
+      "id": 3,
+      "name": "Barnacle Crusted Chest",
+      "locationIds": [
+        2
+      ],
+      "experiments": [
+        {
+          "id": 17,
+          "consumableId": 0,
+          "results": [
+            {
+              "id": 9,
+              "effectId": 7,
+              "comment": "Gems, Gold",
+              "times": 1
+            },
+            {
+              "id": 10,
+              "effectId": 8,
+              "comment": null,
+              "times": 1
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "consumableId": 6,
+          "results": [
+            {
+              "id": 11,
+              "effectId": 7,
+              "comment": null,
+              "times": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Heirloom Chest",
+      "locationIds": [
+        1,
+        2
+      ],
+      "experiments": [
+        {
+          "id": 18,
+          "consumableId": 0,
+          "results": [
+            {
+              "id": 13,
+              "effectId": 7,
+              "comment": "Artifacts",
+              "times": 1
+            },
+            {
+              "id": 14,
+              "effectId": 8,
+              "comment": null,
+              "times": 1
+            },
+            {
+              "id": 15,
+              "effectId": 0,
+              "comment": null,
+              "times": 4
+            }
+          ]
+        },
+        {
+          "id": 19,
+          "consumableId": 5,
+          "results": [
+            {
+              "id": 16,
+              "effectId": 7,
+              "comment": null,
+              "times": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
