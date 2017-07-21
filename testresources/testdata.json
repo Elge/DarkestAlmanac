@@ -12,11 +12,13 @@
   "effects": [
     {
       "id": 7,
-      "name": "Loot"
+      "name": "Loot",
+      "positive": true
     },
     {
       "id": 8,
-      "name": "Bleed"
+      "name": "Bleed",
+      "positive": false
     }
   ],
   "consumables": [

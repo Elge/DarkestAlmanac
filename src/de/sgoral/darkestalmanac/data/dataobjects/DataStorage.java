@@ -1,10 +1,5 @@
 package de.sgoral.darkestalmanac.data.dataobjects;
 
-import de.sgoral.darkestalmanac.data.dataobjects.Consumable;
-import de.sgoral.darkestalmanac.data.dataobjects.Curio;
-import de.sgoral.darkestalmanac.data.dataobjects.Effect;
-import de.sgoral.darkestalmanac.data.dataobjects.Location;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

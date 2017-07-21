@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx"
+      fx:controller="de.sgoral.darkestalmanac.ui.CurioListController">
+    <TextField fx:id="searchField" promptText="Search:"/>
+    <TableView fx:id="dataTable">
+        <columns>
+            <TableColumn fx:id="nameColumn" text="Name"/>
+            <TableColumn fx:id="usefulColumn" text="Useful consumables"/>
+            <TableColumn fx:id="uselessColumn" text="Useless consumables"/>
+            <TableColumn fx:id="untestedColumn" text="Has untested consumables"/>
+        </columns>
+    </TableView>
+</VBox>
