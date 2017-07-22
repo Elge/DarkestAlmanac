@@ -24,23 +24,21 @@ public class PersistenceUtil {
     }
 
     public static void save(File outputFile, DataStorage dataStorage) throws IOException {
-        prepareForSerialization(dataStorage);
-
-        FileWriter writer = new FileWriter(outputFile, false);
-        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
-        gson.toJson(dataStorage, writer);
-        writer.close();
+        save(outputFile, dataStorage, false);
     }
 
-    public static void saveDebug(File outputFile, DataStorage dataStorage) throws IOException {
+    public static void save(File outputFile, DataStorage dataStorage, boolean outputToConsole) throws IOException {
         prepareForSerialization(dataStorage);
 
         FileWriter writer = new FileWriter(outputFile, false);
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
         String json = gson.toJson(dataStorage);
-        System.out.println(json);
         writer.write(json);
         writer.close();
+
+        if (outputToConsole) {
+            System.out.println(json);
+        }
     }
 
     public static DataStorage load(File inputFile) throws IOException {
