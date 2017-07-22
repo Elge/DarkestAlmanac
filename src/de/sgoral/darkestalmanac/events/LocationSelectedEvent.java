@@ -7,7 +7,7 @@ import javafx.event.EventType;
 
 public class LocationSelectedEvent extends Event {
 
-    public static EventType<LocationSelectedEvent> EVENT_TYPE = new EventType<LocationSelectedEvent>("LOCATION_SELECTED");
+    public static EventType<LocationSelectedEvent> EVENT_TYPE = new EventType<>("LOCATION_SELECTED");
 
     private final Location location;
 

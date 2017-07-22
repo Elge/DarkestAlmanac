@@ -22,9 +22,7 @@ public class MainWindowController {
         Parent locationList = loader.load();
         LocationListController controller = loader.getController();
 
-        locationList.addEventHandler(LocationSelectedEvent.EVENT_TYPE, event -> {
-            switchToCurioList(dataStorage, event.getLocation());
-        });
+        locationList.addEventHandler(LocationSelectedEvent.EVENT_TYPE, event -> switchToCurioList(dataStorage, event.getLocation()));
 
         controller.setDataStorage(dataStorage);
 

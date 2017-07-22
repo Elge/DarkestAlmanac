@@ -8,7 +8,7 @@ import java.io.File;
 
 public class FileSelectedEvent extends Event {
 
-    public static EventType<FileSelectedEvent> EVENT_TYPE = new EventType<FileSelectedEvent>("FILE_SELECTED");
+    public static EventType<FileSelectedEvent> EVENT_TYPE = new EventType<>("FILE_SELECTED");
 
     private final File selectedFile;
 

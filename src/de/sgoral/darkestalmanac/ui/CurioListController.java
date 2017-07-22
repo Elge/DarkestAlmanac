@@ -40,58 +40,56 @@ public class CurioListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dataTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            dataTable.getParent().fireEvent(new CurioSelectedEvent(newValue));
-        });
+        dataTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> dataTable.getParent().fireEvent(new CurioSelectedEvent(newValue)));
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         usefulColumn.setCellValueFactory(param -> {
-            String usefulConsumables = "";
+            StringBuilder usefulConsumables = new StringBuilder();
             for (Experiment experiment : param.getValue().getExperiments()) {
                 for (Result result : experiment.getResults()) {
                     if (result.getEffect().isPositive()) {
                         if (usefulConsumables.length() != 0) {
-                            usefulConsumables += ", ";
+                            usefulConsumables.append(", ");
                         }
                         if (experiment.getConsumable() == null) {
-                            usefulConsumables += "None";
+                            usefulConsumables.append("None");
                         } else {
-                            usefulConsumables += experiment.getConsumable().getName();
+                            usefulConsumables.append(experiment.getConsumable().getName());
                         }
                         break;
                     }
                 }
             }
-            return new SimpleObjectProperty<>(usefulConsumables);
+            return new SimpleObjectProperty<>(usefulConsumables.toString());
         });
         uselessColumn.setCellValueFactory(param -> {
-            String uselessConsumables = "";
+            StringBuilder uselessConsumables = new StringBuilder();
             for (Experiment experiment : param.getValue().getExperiments()) {
                 for (Result result : experiment.getResults()) {
                     if (!result.getEffect().isPositive()) {
                         if (uselessConsumables.length() != 0) {
-                            uselessConsumables += ", ";
+                            uselessConsumables.append(", ");
                         }
                         if (experiment.getConsumable() == null) {
-                            uselessConsumables += "None";
+                            uselessConsumables.append("None");
                         } else {
-                            uselessConsumables += experiment.getConsumable().getName();
+                            uselessConsumables.append(experiment.getConsumable().getName());
                         }
                         break;
                     }
                 }
             }
-            return new SimpleObjectProperty<>(uselessConsumables);
+            return new SimpleObjectProperty<>(uselessConsumables.toString());
         });
         untestedColumn.setCellValueFactory(param -> {
-            String untestedConsumables = "";
+            StringBuilder untestedConsumables = new StringBuilder();
             for (Consumable consumable : findUntestedConsumables(param.getValue().getExperiments())) {
                 if (untestedConsumables.length() != 0) {
-                    untestedConsumables += ", ";
+                    untestedConsumables.append(", ");
                 }
-                untestedConsumables += consumable.getName();
+                untestedConsumables.append(consumable.getName());
             }
-            return new SimpleObjectProperty<>(untestedConsumables);
+            return new SimpleObjectProperty<>(untestedConsumables.toString());
         });
     }
 

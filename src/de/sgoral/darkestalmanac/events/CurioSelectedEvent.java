@@ -7,7 +7,7 @@ import javafx.event.EventType;
 
 public class CurioSelectedEvent extends Event {
 
-    public static EventType<CurioSelectedEvent> EVENT_TYPE = new EventType<CurioSelectedEvent>("CURIO_SELECTED");
+    public static EventType<CurioSelectedEvent> EVENT_TYPE = new EventType<>("CURIO_SELECTED");
 
     private final Curio curio;
 

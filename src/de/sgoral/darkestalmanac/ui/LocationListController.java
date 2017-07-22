@@ -26,14 +26,10 @@ public class LocationListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dataTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            dataTable.getParent().fireEvent(new LocationSelectedEvent(newValue));
-        });
+        dataTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> dataTable.getParent().fireEvent(new LocationSelectedEvent(newValue)));
 
         zoneColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        curioCountColumn.setCellValueFactory(param -> {
-            return new SimpleObjectProperty<>(param.getValue().getCurios().size());
-        });
+        curioCountColumn.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getCurios().size()));
     }
 
     public DataStorage getDataStorage() {
