@@ -13,7 +13,7 @@ import java.util.prefs.Preferences;
 public class PreferencesUtil {
 
     public static final String PREF_KEY_DATA_STORAGE = "data_storage";
-    static Preferences preferences = Preferences.userNodeForPackage(PreferencesUtil.class);
+    private static final Preferences preferences = Preferences.userNodeForPackage(PreferencesUtil.class);
 
     private PreferencesUtil() {
 
