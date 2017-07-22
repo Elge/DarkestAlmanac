@@ -29,6 +29,18 @@ public class GuiLoaderUtil {
         return instance;
     }
 
+    public GuiLoader<DataLocationEditorController> getDataLocationEditor() {
+        return dataLocationEditor;
+    }
+
+    public GuiLoader<LocationListController> getLocationList() {
+        return locationList;
+    }
+
+    public GuiLoader<CurioListController> getCurioList() {
+        return curioList;
+    }
+
     public class GuiLoader<ControllerClass> {
         private FXMLLoader loader;
         private String fxmlFile;
@@ -55,17 +67,5 @@ public class GuiLoaderUtil {
             }
             return loader;
         }
-    }
-
-    public GuiLoader<DataLocationEditorController> getDataLocationEditor() {
-        return dataLocationEditor;
-    }
-
-    public GuiLoader<LocationListController> getLocationList() {
-        return locationList;
-    }
-
-    public GuiLoader<CurioListController> getCurioList() {
-        return curioList;
     }
 }

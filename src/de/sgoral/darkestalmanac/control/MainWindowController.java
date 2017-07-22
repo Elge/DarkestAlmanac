@@ -5,12 +5,9 @@ import de.sgoral.darkestalmanac.data.dataobjects.Location;
 import de.sgoral.darkestalmanac.events.LocationSelectedEvent;
 import de.sgoral.darkestalmanac.ui.CurioListController;
 import de.sgoral.darkestalmanac.ui.LocationListController;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class MainWindowController {
 
