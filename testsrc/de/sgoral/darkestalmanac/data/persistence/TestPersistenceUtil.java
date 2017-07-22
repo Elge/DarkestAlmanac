@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -63,16 +64,28 @@ public class TestPersistenceUtil {
 
         URL expectedResource = System.class.getResource("/testdata.json");
         File expectedFile = new File(expectedResource.getFile());
-        byte[] expectedBytes = Files.readAllBytes(expectedFile.toPath());
+        List<String> expectedLines = Files.readAllLines(expectedFile.toPath());
 
-        PersistenceUtil.saveDebug(outputFile, dataStorage);
-        byte[] actualBytes = Files.readAllBytes(outputFile.toPath());
-        assertArrayEquals(expectedBytes, actualBytes);
+        PersistenceUtil.save(outputFile, dataStorage, true);
+        List<String> actualLines = Files.readAllLines(outputFile.toPath());
+        compareLinesArrays(expectedLines, actualLines);
 
         PersistenceUtil.save(outputFile, dataStorage);
-        actualBytes = Files.readAllBytes(outputFile.toPath());
-        assertArrayEquals(expectedBytes, actualBytes);
+        actualLines = Files.readAllLines(outputFile.toPath());
+        compareLinesArrays(expectedLines, actualLines);
+    }
 
+    private void compareLinesArrays(List<String> expectedLines, List<String> actualLines) {
+        if (expectedLines == null) {
+            assertNull(actualLines);
+        } else {
+            assertNotNull(actualLines);
+
+            assertEquals(expectedLines.size(), actualLines.size());
+            for (int i = 0; i < expectedLines.size(); i++) {
+                assertEquals(expectedLines.get(0), actualLines.get(0));
+            }
+        }
     }
 
     @Test
