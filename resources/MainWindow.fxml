@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="de.sgoral.darkestalmanac.ui.MainWindowController"
+            prefHeight="400.0" prefWidth="600.0">
+    <MenuBar fx:id="menuBar">
+        <menus>
+            <Menu text="File">
+                <items>
+                    <MenuItem text="New" onAction="#onMenuNew"/>
+                    <MenuItem text="Open" onAction="#onMenuOpen"/>
+                    <MenuItem text="Save" onAction="#onMenuSave"/>
+                    <MenuItem text="Save As" onAction="#onMenuSaveAs"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="Exit" onAction="#onMenuExit"/>
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+    <Pane fx:id="contentPane"/>
+</VBox>

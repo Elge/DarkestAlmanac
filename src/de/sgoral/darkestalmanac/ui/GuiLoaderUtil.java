@@ -1,8 +1,5 @@
-package de.sgoral.darkestalmanac.control;
+package de.sgoral.darkestalmanac.ui;
 
-import de.sgoral.darkestalmanac.ui.CurioListController;
-import de.sgoral.darkestalmanac.ui.DataLocationEditorController;
-import de.sgoral.darkestalmanac.ui.LocationListController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -11,14 +8,17 @@ import java.io.IOException;
 public class GuiLoaderUtil {
 
     private static GuiLoaderUtil instance = null;
-    private final GuiLoader<DataLocationEditorController> dataLocationEditor;
+    private final GuiLoader<MainWindowController> mainWindow;
     private final GuiLoader<LocationListController> locationList;
     private final GuiLoader<CurioListController> curioList;
+    private final GuiLoader<CurioController> curio;
+
 
     private GuiLoaderUtil() {
-        this.dataLocationEditor = new GuiLoader<>("DataLocationEditor.fxml");
+        this.mainWindow = new GuiLoader<>("MainWindow.fxml");
         this.locationList = new GuiLoader<>("LocationList.fxml");
         this.curioList = new GuiLoader<>("CurioList.fxml");
+        this.curio = new GuiLoader<>("Curio.fxml");
     }
 
     public static GuiLoaderUtil getInstance() {
@@ -29,8 +29,8 @@ public class GuiLoaderUtil {
         return instance;
     }
 
-    public GuiLoader<DataLocationEditorController> getDataLocationEditor() {
-        return dataLocationEditor;
+    public GuiLoader<MainWindowController> getMainWindow() {
+        return mainWindow;
     }
 
     public GuiLoader<LocationListController> getLocationList() {
@@ -41,20 +41,28 @@ public class GuiLoaderUtil {
         return curioList;
     }
 
+    public GuiLoader<CurioController> getCurio() {
+        return curio;
+    }
+
     public class GuiLoader<ControllerClass> {
         private FXMLLoader loader;
         private String fxmlFile;
+        private Parent loaded;
 
         private GuiLoader(String fxmlFile) {
             this.fxmlFile = '/' + fxmlFile;
         }
 
         public Parent load() {
-            try {
-                return getLoader().load();
-            } catch (IOException e) {
-                throw new RuntimeException("Fatal error loading fxml file " + fxmlFile);
+            if (loaded == null) {
+                try {
+                    loaded = getLoader().load();
+                } catch (IOException e) {
+                    throw new RuntimeException("Fatal error loading fxml file " + fxmlFile, e);
+                }
             }
+            return loaded;
         }
 
         public ControllerClass getController() {

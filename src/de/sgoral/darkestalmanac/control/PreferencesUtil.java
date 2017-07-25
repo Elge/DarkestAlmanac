@@ -21,14 +21,18 @@ public class PreferencesUtil {
 
     public static File getStorageFile() {
         String path = preferences.get(PREF_KEY_DATA_STORAGE, null);
-        if (path != null) {
-            return new File(path);
+        if (path == null) {
+            return null;
         }
-        return null;
+        return new File(path);
     }
 
     public static void setStorageFile(File location) {
-        preferences.put(PREF_KEY_DATA_STORAGE, location.getAbsolutePath());
+        if (location == null) {
+            preferences.remove(PREF_KEY_DATA_STORAGE);
+        } else {
+            preferences.put(PREF_KEY_DATA_STORAGE, location.getAbsolutePath());
+        }
     }
 
     public static void saveStorageData(File file, DataStorage dataStorage) {
