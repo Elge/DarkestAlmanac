@@ -3,9 +3,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
-      fx:controller="de.sgoral.darkestalmanac.ui.LocationListController">
+      fx:controller="de.sgoral.darkestalmanac.ui.controllers.LocationListController">
     <TableView fx:id="dataTable">
         <columns>
             <TableColumn fx:id="zoneColumn" text="Zone"/>

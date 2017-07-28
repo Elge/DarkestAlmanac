@@ -4,6 +4,7 @@ import de.sgoral.darkestalmanac.control.PreferencesUtil;
 import de.sgoral.darkestalmanac.data.dataobjects.DataStorage;
 import de.sgoral.darkestalmanac.events.MenuItemActionEvent;
 import de.sgoral.darkestalmanac.events.TitleChangeRequestedEvent;
+import de.sgoral.darkestalmanac.ui.controllers.MainWindowController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -44,9 +45,9 @@ public class GuiController {
         } else if (storageFile.canRead()) {
             initialiseMainWindow(PreferencesUtil.loadStorageData(storageFile), firstRun);
         } else {
-            boolean changeFile = SavingAndLoadingController.errorCannotOpenFile(storageFile.getAbsolutePath());
+            boolean changeFile = SavingAndLoadingGui.errorCannotOpenFile(storageFile.getAbsolutePath());
             if (changeFile) {
-                PreferencesUtil.setStorageFile(SavingAndLoadingController.promptForNewFile(stage.getOwner(),
+                PreferencesUtil.setStorageFile(SavingAndLoadingGui.promptForNewFile(stage.getOwner(),
                         this.initialDirectory, this.initialFilename, this.extension, this.extensionDescription));
             }
             start();
@@ -67,7 +68,8 @@ public class GuiController {
             this.stage.setScene(new Scene(mainWindow));
         }
 
-        controller.switchToLocationsList(dataStorage);
+        controller.setDataStorage(dataStorage);
+        controller.switchToLocationsList();
         this.stage.show();
     }
 
@@ -76,16 +78,16 @@ public class GuiController {
 
         mainWindow.addEventHandler(MenuItemActionEvent.EVENT_TYPE_ROOT, event -> {
             if (event.getEventType() == MenuItemActionEvent.EVENT_TYPE_NEW) {
-                if (SavingAndLoadingController.askIfSave()) {
+                if (SavingAndLoadingGui.askIfSave()) {
                     PreferencesUtil.saveStorageData(PreferencesUtil.getStorageFile(), dataStorage);
                 }
                 PreferencesUtil.setStorageFile(null);
                 restart();
             } else if (event.getEventType() == MenuItemActionEvent.EVENT_TYPE_OPEN) {
-                if (SavingAndLoadingController.askIfSave()) {
+                if (SavingAndLoadingGui.askIfSave()) {
                     PreferencesUtil.saveStorageData(PreferencesUtil.getStorageFile(), dataStorage);
                 }
-                File file = SavingAndLoadingController.promptForExistingFile(stage.getOwner(), initialDirectory,
+                File file = SavingAndLoadingGui.promptForExistingFile(stage.getOwner(), initialDirectory,
                         initialFilename, extension, extensionDescription);
                 if (file != null) {
                     PreferencesUtil.setStorageFile(file);
@@ -94,7 +96,7 @@ public class GuiController {
             } else if (event.getEventType() == MenuItemActionEvent.EVENT_TYPE_SAVE) {
                 PreferencesUtil.saveStorageData(PreferencesUtil.getStorageFile(), dataStorage);
             } else if (event.getEventType() == MenuItemActionEvent.EVENT_TYPE_SAVEAS) {
-                File storageFile = SavingAndLoadingController.promptForNewFile(stage.getOwner(), initialDirectory, initialFilename,
+                File storageFile = SavingAndLoadingGui.promptForNewFile(stage.getOwner(), initialDirectory, initialFilename,
                         extension, extensionDescription);
                 if (storageFile != null) {
                     PreferencesUtil.setStorageFile(storageFile);

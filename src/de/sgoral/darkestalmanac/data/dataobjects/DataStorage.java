@@ -13,6 +13,7 @@ public class DataStorage implements Serializable {
     private List<Effect> effects;
     private List<Consumable> consumables;
     private List<Curio> curios;
+    private int lastId = 0;
 
     public DataStorage() {
         locations = new ArrayList<>();
@@ -67,5 +68,36 @@ public class DataStorage implements Serializable {
 
     public boolean addConsumable(Consumable consumable) {
         return this.consumables.add(consumable);
+    }
+
+    public void removeLocation(Location location) {
+        locations.remove(location);
+
+        List<Curio> toRemove = new ArrayList<>();
+
+        for (Curio curio : curios) {
+            if (curio.getLocations().contains(location)) {
+                curio.getLocations().remove(location);
+                if (curio.getLocations().size() == 0) {
+                    toRemove.add(curio);
+                }
+            }
+        }
+
+        for (Curio curio : toRemove) {
+            removeCurio(curio);
+        }
+    }
+
+    public void removeCurio(Curio curio) {
+        curios.remove(curio);
+
+        for (Location location : locations) {
+            location.getCurios().remove(curio);
+        }
+    }
+
+    public int generateId() {
+        return lastId++;
     }
 }

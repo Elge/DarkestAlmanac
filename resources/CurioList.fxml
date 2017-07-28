@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
-      fx:controller="de.sgoral.darkestalmanac.ui.CurioListController">
+      fx:controller="de.sgoral.darkestalmanac.ui.controllers.CurioListController">
     <TextField fx:id="searchField" promptText="Search:"/>
     <TableView fx:id="dataTable">
         <columns>

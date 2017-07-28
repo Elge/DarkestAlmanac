@@ -8,7 +8,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="de.sgoral.darkestalmanac.ui.CurioController"
+            fx:controller="de.sgoral.darkestalmanac.ui.controllers.CurioController"
             prefWidth="400">
     <ListView fx:id="locationsList"/>
     <TableView fx:id="experimentsTable">

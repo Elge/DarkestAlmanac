@@ -102,12 +102,12 @@ public class TestPersistenceUtil {
 
         Location ruins = dataStorage.getLocations().get(0);
         assertNotNull(ruins);
-        assertEquals(1, ruins.getId());
+        assertEquals(Integer.valueOf(1), ruins.getId());
         assertEquals("Ruins", ruins.getName());
 
         Location cove = dataStorage.getLocations().get(1);
         assertNotNull(cove);
-        assertEquals(2, cove.getId());
+        assertEquals(Integer.valueOf(2), cove.getId());
         assertEquals("Cove", cove.getName());
 
         // Validate consumables

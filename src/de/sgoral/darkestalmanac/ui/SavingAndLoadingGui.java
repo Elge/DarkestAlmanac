@@ -9,9 +9,9 @@ import javafx.stage.Window;
 import java.io.File;
 import java.util.Optional;
 
-public class SavingAndLoadingController {
+public class SavingAndLoadingGui {
 
-    private SavingAndLoadingController() {
+    private SavingAndLoadingGui() {
     }
 
     /**

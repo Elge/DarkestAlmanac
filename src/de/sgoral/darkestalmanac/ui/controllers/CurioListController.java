@@ -1,4 +1,4 @@
-package de.sgoral.darkestalmanac.ui;
+package de.sgoral.darkestalmanac.ui.controllers;
 
 import de.sgoral.darkestalmanac.data.dataobjects.*;
 import de.sgoral.darkestalmanac.events.CurioSelectedEvent;

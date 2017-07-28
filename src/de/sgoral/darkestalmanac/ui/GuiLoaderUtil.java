@@ -1,5 +1,6 @@
 package de.sgoral.darkestalmanac.ui;
 
+import de.sgoral.darkestalmanac.ui.controllers.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -10,6 +11,7 @@ public class GuiLoaderUtil {
     private static GuiLoaderUtil instance = null;
     private final GuiLoader<MainWindowController> mainWindow;
     private final GuiLoader<LocationListController> locationList;
+    private final GuiLoader<LocationEditorController> locationEditor;
     private final GuiLoader<CurioListController> curioList;
     private final GuiLoader<CurioController> curio;
 
@@ -17,6 +19,7 @@ public class GuiLoaderUtil {
     private GuiLoaderUtil() {
         this.mainWindow = new GuiLoader<>("MainWindow.fxml");
         this.locationList = new GuiLoader<>("LocationList.fxml");
+        this.locationEditor = new GuiLoader<>("LocationEditor.fxml");
         this.curioList = new GuiLoader<>("CurioList.fxml");
         this.curio = new GuiLoader<>("Curio.fxml");
     }
@@ -35,6 +38,10 @@ public class GuiLoaderUtil {
 
     public GuiLoader<LocationListController> getLocationList() {
         return locationList;
+    }
+
+    public GuiLoader<LocationEditorController> getLocationEditor() {
+        return locationEditor;
     }
 
     public GuiLoader<CurioListController> getCurioList() {
