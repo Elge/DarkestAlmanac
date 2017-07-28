@@ -9,11 +9,14 @@ import java.util.List;
  */
 public class Curio implements Serializable {
 
-    private int id;
+    private Integer id;
     private String name;
     private int[] locationIds;
     private transient List<Location> locations = new ArrayList<>();
     private List<Experiment> experiments = new ArrayList<>();
+
+    public Curio() {
+    }
 
     public Curio(int id, String name, Location location) {
         this.id = id;
@@ -22,11 +25,11 @@ public class Curio implements Serializable {
         this.locations.add(location);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

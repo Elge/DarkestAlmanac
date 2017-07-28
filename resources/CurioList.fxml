@@ -11,7 +11,7 @@
             <TableColumn fx:id="nameColumn" text="Name"/>
             <TableColumn fx:id="usefulColumn" text="Useful consumables"/>
             <TableColumn fx:id="uselessColumn" text="Useless consumables"/>
-            <TableColumn fx:id="untestedColumn" text="Has untested consumables"/>
+            <TableColumn fx:id="untestedColumn" text="Untested consumables"/>
         </columns>
     </TableView>
 </VBox>

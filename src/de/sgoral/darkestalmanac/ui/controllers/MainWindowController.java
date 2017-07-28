@@ -31,7 +31,13 @@ public class MainWindowController implements Initializable {
     private Parent locationList;
     private Parent locationEditor;
     private Parent curioList;
+    private Parent curioEditor;
     private Parent curioView;
+    private LocationListController locationListController;
+    private LocationEditorController locationEditorController;
+    private CurioListController curioListController;
+    private CurioController curioViewController;
+    private CurioEditorController curioEditorController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -39,17 +45,22 @@ public class MainWindowController implements Initializable {
         initialiseLocationEditor();
         initialiseCuriosList();
         initialiseCurioView();
+        initialiseCurioEditor();
         initialiseExperimentView();
     }
 
     public void setDataStorage(DataStorage dataStorage) {
         this.dataStorage = dataStorage;
+
+        locationListController.setDataStorage(dataStorage);
+        curioListController.setDataStorage(dataStorage);
+
     }
 
     private void initialiseLocationsList() {
         GuiLoaderUtil.GuiLoader<LocationListController> loader = GuiLoaderUtil.getInstance().getLocationList();
         locationList = loader.load();
-        LocationListController controller = loader.getController();
+        locationListController = loader.getController();
 
         locationList.addEventHandler(LocationSelectedEvent.EVENT_TYPE, event -> openCuriosList(event.getLocation()));
         locationList.addEventHandler(EditLocationEvent.EVENT_TYPE_ROOT, event -> {
@@ -57,54 +68,93 @@ public class MainWindowController implements Initializable {
                 openLocationEditor(event.getLocation());
             } else if (event.getEventType() == EditLocationEvent.EVENT_TYPE_DELETE) {
                 dataStorage.getLocations().remove(event.getLocation());
-                controller.refreshTable();
+                locationListController.refreshTable();
             }
         });
-
-        controller.setDataStorage(dataStorage);
     }
 
     private void initialiseLocationEditor() {
         GuiLoaderUtil.GuiLoader<LocationEditorController> loader = GuiLoaderUtil.getInstance().getLocationEditor();
         locationEditor = loader.load();
-        LocationEditorController controller = loader.getController();
+        locationEditorController = loader.getController();
 
         locationEditor.addEventHandler(EditLocationEvent.EVENT_TYPE_ROOT, event -> {
-            if (event.getEventType() == EditLocationEvent.EVENT_TYPE_SAVE || event.getEventType() == EditLocationEvent.EVENT_TYPE_CANCEL) {
-                if (event.getEventType() == EditLocationEvent.EVENT_TYPE_SAVE) {
-                    Location newValue = event.getLocation();
-                    if (newValue.getId() == null) {
-                        newValue.setId(dataStorage.generateId());
-                        dataStorage.addLocation(newValue);
-                    } else {
-                        for (Location location : dataStorage.getLocations()) {
-                            if (location.getId() == newValue.getId()) {
-                                location.setName(newValue.getName());
-                                break;
-                            }
+            if (event.getEventType() == EditLocationEvent.EVENT_TYPE_SAVE) {
+                Location newValue = event.getLocation();
+                if (newValue.getId() == null) {
+                    newValue.setId(dataStorage.generateId());
+                    dataStorage.addLocation(newValue);
+                } else {
+                    for (Location location : dataStorage.getLocations()) {
+                        if (location.getId() == newValue.getId()) {
+                            location.setName(newValue.getName());
+                            break;
                         }
                     }
                 }
-
-                switchToLocationsList();
             }
+
+            switchToLocationsList();
         });
     }
 
     private void initialiseCuriosList() {
         GuiLoaderUtil.GuiLoader<CurioListController> loader = GuiLoaderUtil.getInstance().getCurioList();
         curioList = loader.load();
-        CurioListController controller = loader.getController();
+        curioListController = loader.getController();
 
         curioList.addEventHandler(CurioSelectedEvent.EVENT_TYPE, event -> openCurioView(event.getCurio()));
+        curioList.addEventHandler(CurioEditingEvent.EVENT_TYPE_ROOT, event -> {
+            if (event.getEventType() == CurioEditingEvent.EVENT_TYPE_NEW || event.getEventType() == CurioEditingEvent.EVENT_TYPE_EDIT) {
+                openCurioEditor(event.getLocation(), event.getCurio());
+            } else if (event.getEventType() == CurioEditingEvent.EVENT_TYPE_DELETE) {
+                dataStorage.getCurios().remove(event.getCurio());
+                locationListController.refreshTable();
+            }
+        });
+    }
 
-        controller.setDataStorage(dataStorage);
+    private void initialiseCurioEditor() {
+        GuiLoaderUtil.GuiLoader<CurioEditorController> loader = GuiLoaderUtil.getInstance().getCurioEditor();
+        curioEditor = loader.load();
+        curioEditorController = loader.getController();
+
+        curioEditor.addEventHandler(CurioEditingEvent.EVENT_TYPE_ROOT, event -> {
+            if (event.getEventType() == CurioEditingEvent.EVENT_TYPE_SAVE) {
+                Curio newValue = event.getCurio();
+
+                if (newValue.getId() == null) {
+                    newValue.setId(dataStorage.generateId());
+                    dataStorage.getCurios().add(newValue);
+                    for (Location location : newValue.getLocations()) {
+                        location.getCurios().add(newValue);
+                    }
+                } else {
+                    for (Curio curio : dataStorage.getCurios()) {
+                        if (curio.getId() == newValue.getId()) {
+                            curio.setName(newValue.getName());
+                            curio.setLocations(newValue.getLocations());
+
+                            for (Location location : dataStorage.getLocations()) {
+                                location.getCurios().remove(curio);
+                            }
+                            for (Location location : curio.getLocations()) {
+                                location.addCurio(curio);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            openCuriosList(event.getLocation());
+        });
     }
 
     private void initialiseCurioView() {
         GuiLoaderUtil.GuiLoader<CurioController> loader = GuiLoaderUtil.getInstance().getCurio();
         curioView = loader.load();
-        CurioController controller = loader.getController();
+        curioViewController = loader.getController();
 
         curioView.addEventHandler(ExperimentSelectedEvent.EVENT_TYPE, event -> switchToExperimentView(event.getExperiment()));
     }
@@ -120,6 +170,7 @@ public class MainWindowController implements Initializable {
 
     public void openLocationEditor(Location location) {
         contentPane.getChildren().setAll(locationEditor);
+        locationEditorController.setLocation(location);
         if (location == null) {
             changeTitle("New location");
         } else {
@@ -130,12 +181,23 @@ public class MainWindowController implements Initializable {
 
     public void openCuriosList(Location location) {
         contentPane.getChildren().setAll(curioList);
+        curioListController.setLocation(location);
         changeTitle("Curios in " + location.getName());
     }
 
+    public void openCurioEditor(Location currentLocation, Curio curio) {
+        contentPane.getChildren().setAll(curioEditor);
+        curioEditorController.setData(dataStorage.getLocations(), currentLocation, curio);
+        if (curio == null) {
+            changeTitle("New curio");
+        } else {
+            changeTitle("Edit " + curio.getName());
+        }
+    }
 
     public void openCurioView(Curio curio) {
         contentPane.getChildren().setAll(curioView);
+        curioViewController.setCurio(curio);
         changeTitle(curio.getName());
     }
 

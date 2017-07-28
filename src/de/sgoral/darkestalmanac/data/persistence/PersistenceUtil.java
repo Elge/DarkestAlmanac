@@ -48,6 +48,7 @@ public class PersistenceUtil {
         reader.close();
 
         rebuildAssociations(dataStorage);
+        dataStorage.initialiseIdGenerator();
         return dataStorage;
     }
 

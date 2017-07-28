@@ -1,14 +1,15 @@
 package de.sgoral.darkestalmanac.ui.controllers;
 
 import de.sgoral.darkestalmanac.data.dataobjects.*;
+import de.sgoral.darkestalmanac.events.CurioEditingEvent;
 import de.sgoral.darkestalmanac.events.CurioSelectedEvent;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,7 +41,45 @@ public class CurioListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dataTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> dataTable.getParent().fireEvent(new CurioSelectedEvent(newValue)));
+        dataTable.setRowFactory(param -> {
+            TableRow<Curio> row = new TableRow<>();
+
+            ContextMenu emptyCM = new ContextMenu();
+            ContextMenu fullCM = new ContextMenu();
+
+            {
+                MenuItem add = new MenuItem("Add curio");
+                add.setOnAction(event -> row.fireEvent(new CurioEditingEvent(CurioEditingEvent.EVENT_TYPE_NEW, this.location, new Curio())));
+                emptyCM.getItems().add(add);
+            }
+
+            {
+                MenuItem add = new MenuItem("Add curio");
+                add.setOnAction(event -> row.fireEvent(new CurioEditingEvent(CurioEditingEvent.EVENT_TYPE_NEW, this.location, new Curio())));
+
+                MenuItem edit = new MenuItem("Edit curio");
+                edit.setOnAction(event -> row.fireEvent(new CurioEditingEvent(CurioEditingEvent.EVENT_TYPE_EDIT, this.location, row.getItem())));
+
+                MenuItem delete = new MenuItem("Delete curio");
+                delete.setOnAction(event -> row.fireEvent(new CurioEditingEvent(CurioEditingEvent.EVENT_TYPE_DELETE, this.location, row.getItem())));
+
+                fullCM.getItems().addAll(add, edit, delete);
+            }
+
+            row.contextMenuProperty().bind(
+                    Bindings.when(
+                            Bindings.isNull(row.itemProperty())
+                    ).then(emptyCM).otherwise(fullCM)
+            );
+
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
+                    row.fireEvent(new CurioSelectedEvent(row.getItem()));
+                }
+            });
+
+            return row;
+        });
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         usefulColumn.setCellValueFactory(param -> {

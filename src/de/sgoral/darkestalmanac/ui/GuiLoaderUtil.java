@@ -13,6 +13,7 @@ public class GuiLoaderUtil {
     private final GuiLoader<LocationListController> locationList;
     private final GuiLoader<LocationEditorController> locationEditor;
     private final GuiLoader<CurioListController> curioList;
+    private final GuiLoader<CurioEditorController> curioEditor;
     private final GuiLoader<CurioController> curio;
 
 
@@ -21,6 +22,7 @@ public class GuiLoaderUtil {
         this.locationList = new GuiLoader<>("LocationList.fxml");
         this.locationEditor = new GuiLoader<>("LocationEditor.fxml");
         this.curioList = new GuiLoader<>("CurioList.fxml");
+        this.curioEditor = new GuiLoader<>("CurioEditor.fxml");
         this.curio = new GuiLoader<>("Curio.fxml");
     }
 
@@ -46,6 +48,10 @@ public class GuiLoaderUtil {
 
     public GuiLoader<CurioListController> getCurioList() {
         return curioList;
+    }
+
+    public GuiLoader<CurioEditorController> getCurioEditor() {
+        return curioEditor;
     }
 
     public GuiLoader<CurioController> getCurio() {

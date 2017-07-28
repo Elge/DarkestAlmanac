@@ -81,10 +81,7 @@ public class TestPersistenceUtil {
         } else {
             assertNotNull(actualLines);
 
-            assertEquals(expectedLines.size(), actualLines.size());
-            for (int i = 0; i < expectedLines.size(); i++) {
-                assertEquals(expectedLines.get(0), actualLines.get(0));
-            }
+            assertEquals(expectedLines, actualLines);
         }
     }
 
@@ -146,7 +143,7 @@ public class TestPersistenceUtil {
 
         Curio barnacleCrustedChest = dataStorage.getCurios().get(0);
         assertNotNull(barnacleCrustedChest);
-        assertEquals(3, barnacleCrustedChest.getId());
+        assertEquals(Integer.valueOf(3), barnacleCrustedChest.getId());
         assertEquals("Barnacle Crusted Chest", barnacleCrustedChest.getName());
 
         assertNotNull(barnacleCrustedChest.getLocations());
@@ -193,7 +190,7 @@ public class TestPersistenceUtil {
 
         Curio heirloomChest = dataStorage.getCurios().get(1);
         assertNotNull(heirloomChest);
-        assertEquals(4, heirloomChest.getId());
+        assertEquals(Integer.valueOf(4), heirloomChest.getId());
         assertEquals("Heirloom Chest", heirloomChest.getName());
 
         assertNotNull(heirloomChest.getLocations());

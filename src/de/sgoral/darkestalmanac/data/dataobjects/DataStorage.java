@@ -13,7 +13,7 @@ public class DataStorage implements Serializable {
     private List<Effect> effects;
     private List<Consumable> consumables;
     private List<Curio> curios;
-    private int lastId = 0;
+    private transient int lastId = 0;
 
     public DataStorage() {
         locations = new ArrayList<>();
@@ -99,5 +99,45 @@ public class DataStorage implements Serializable {
 
     public int generateId() {
         return lastId++;
+    }
+
+    public void initialiseIdGenerator() {
+        for (Location location : locations) {
+            if (lastId < location.getId()) {
+                lastId = location.getId();
+            }
+        }
+
+        for (Consumable consumable : consumables) {
+            if (lastId < consumable.getId()) {
+                lastId = consumable.getId();
+            }
+        }
+
+        for (Effect effect : effects) {
+            if (lastId < effect.getId()) {
+                lastId = effect.getId();
+            }
+        }
+
+        for (Curio curio : curios) {
+            if (lastId < curio.getId()) {
+                lastId = curio.getId();
+            }
+
+            for (Experiment experiment : curio.getExperiments()) {
+                if (lastId < experiment.getId()) {
+                    lastId = experiment.getId();
+                }
+
+                for (Result result : experiment.getResults()) {
+                    if (lastId < result.getId()) {
+                        lastId = result.getId();
+                    }
+                }
+            }
+        }
+
+        System.out.println("ID generator set to " + lastId);
     }
 }
