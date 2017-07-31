@@ -226,7 +226,7 @@ public class MainWindowController implements Initializable {
             curioViewController.forceUiUpdate();
             backOneLevel();
         } else {
-            curioViewController.setCurio(curio);
+            curioViewController.setData(dataStorage, curio);
             switchUiElement(curioView, curio.getName());
         }
     }

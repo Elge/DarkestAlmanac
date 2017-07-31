@@ -1,7 +1,9 @@
 package de.sgoral.darkestalmanac.ui;
 
 import de.sgoral.darkestalmanac.control.PreferencesUtil;
+import de.sgoral.darkestalmanac.data.dataobjects.Consumable;
 import de.sgoral.darkestalmanac.data.dataobjects.DataStorage;
+import de.sgoral.darkestalmanac.data.dataobjects.Effect;
 import de.sgoral.darkestalmanac.events.MenuItemActionEvent;
 import de.sgoral.darkestalmanac.events.TitleChangeRequestedEvent;
 import de.sgoral.darkestalmanac.ui.controllers.MainWindowController;
@@ -41,7 +43,11 @@ public class GuiController {
     public void start(boolean firstRun) {
         File storageFile = PreferencesUtil.getStorageFile();
         if (storageFile == null) {
-            initialiseMainWindow(new DataStorage(), firstRun);
+            DataStorage dataStorage = new DataStorage();
+            dataStorage.addConsumable(new Consumable(dataStorage.generateId(), "None"));
+            dataStorage.addEffect(new Effect(dataStorage.generateId(), "None", false, false));
+
+            initialiseMainWindow(dataStorage, firstRun);
         } else if (storageFile.canRead()) {
             initialiseMainWindow(PreferencesUtil.loadStorageData(storageFile), firstRun);
         } else {

@@ -13,12 +13,14 @@
     {
       "id": 7,
       "name": "Loot",
-      "positive": true
+      "positive": true,
+      "negative": false
     },
     {
       "id": 8,
       "name": "Bleed",
-      "positive": false
+      "positive": false,
+      "negative": true
     }
   ],
   "consumables": [

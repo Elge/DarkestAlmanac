@@ -29,8 +29,8 @@ public class TestPersistenceUtil {
         Consumable key = new Consumable(5, "Key");
         Consumable shovel = new Consumable(6, "Shovel");
 
-        Effect loot = new Effect(7, "Loot", true);
-        Effect bleed = new Effect(8, "Bleed", false);
+        Effect loot = new Effect(7, "Loot", true, false);
+        Effect bleed = new Effect(8, "Bleed", false, true);
 
         Experiment experiment1 = new Experiment(17, new Result(9, loot, "Gems, Gold", 1));
         barnacleCrustedChest.addExperiment(experiment1);
@@ -130,12 +130,14 @@ public class TestPersistenceUtil {
         assertEquals(7, loot.getId());
         assertEquals("Loot", loot.getName());
         assertTrue(loot.isPositive());
+        assertFalse(loot.isNegative());
 
         Effect bleed = dataStorage.getEffects().get(1);
         assertNotNull(bleed);
         assertEquals(8, bleed.getId());
         assertEquals("Bleed", bleed.getName());
         assertFalse(bleed.isPositive());
+        assertTrue(bleed.isNegative());
 
         // Validate curios
         assertNotNull(dataStorage.getCurios());

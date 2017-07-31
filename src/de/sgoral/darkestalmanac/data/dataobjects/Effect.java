@@ -10,11 +10,13 @@ public class Effect implements Serializable {
     private int id;
     private String name;
     private boolean positive;
+    private boolean negative;
 
-    public Effect(int id, String name, boolean positive) {
+    public Effect(int id, String name, boolean positive, boolean negative) {
         this.id = id;
         this.name = name;
         this.positive = positive;
+        this.negative = negative;
     }
 
     public int getId() {
@@ -39,5 +41,13 @@ public class Effect implements Serializable {
 
     public void setPositive(boolean positive) {
         this.positive = positive;
+    }
+
+    public boolean isNegative() {
+        return negative;
+    }
+
+    public void setNegative(boolean negative) {
+        this.negative = negative;
     }
 }

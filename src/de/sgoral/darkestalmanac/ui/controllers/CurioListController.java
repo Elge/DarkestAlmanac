@@ -105,7 +105,7 @@ public class CurioListController implements Initializable {
             StringBuilder uselessConsumables = new StringBuilder();
             for (Experiment experiment : param.getValue().getExperiments()) {
                 for (Result result : experiment.getResults()) {
-                    if (!result.getEffect().isPositive()) {
+                    if (result.getEffect().isNegative()) {
                         if (uselessConsumables.length() != 0) {
                             uselessConsumables.append(", ");
                         }

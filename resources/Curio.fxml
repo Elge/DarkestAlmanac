@@ -10,7 +10,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="de.sgoral.darkestalmanac.ui.controllers.CurioController"
             prefWidth="400">
-    <ListView fx:id="locationsList"/>
+    <Label fx:id="locations"/>
     <TableView fx:id="experimentsTable">
         <columns>
             <TableColumn fx:id="consumableColumn" text="Consumable"/>
