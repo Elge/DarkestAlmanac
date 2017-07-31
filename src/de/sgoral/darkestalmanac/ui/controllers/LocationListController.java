@@ -78,10 +78,10 @@ public class LocationListController implements Initializable {
 
     public void setDataStorage(DataStorage dataStorage) {
         this.dataStorage = dataStorage;
-        refreshTable();
+        forceUiUpdate();
     }
 
-    public void refreshTable() {
+    public void forceUiUpdate() {
         dataTable.getItems().setAll(dataStorage.getLocations());
     }
 

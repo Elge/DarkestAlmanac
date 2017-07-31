@@ -12,11 +12,13 @@ import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class MainWindowController implements Initializable {
 
@@ -24,9 +26,13 @@ public class MainWindowController implements Initializable {
     private MenuBar menuBar;
     @FXML
     private Pane contentPane;
+    @FXML
+    private Button backButton;
 
     private String title;
     private DataStorage dataStorage;
+    private Stack<Parent> uiStack;
+    private Stack<String> titleStack;
 
     private Parent locationList;
     private Parent locationEditor;
@@ -41,6 +47,11 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        uiStack = new Stack<>();
+        titleStack = new Stack<>();
+
+        backButton.setOnAction(event -> backOneLevel());
+
         initialiseLocationsList();
         initialiseLocationEditor();
         initialiseCuriosList();
@@ -53,8 +64,6 @@ public class MainWindowController implements Initializable {
         this.dataStorage = dataStorage;
 
         locationListController.setDataStorage(dataStorage);
-        curioListController.setDataStorage(dataStorage);
-
     }
 
     private void initialiseLocationsList() {
@@ -68,7 +77,7 @@ public class MainWindowController implements Initializable {
                 openLocationEditor(event.getLocation());
             } else if (event.getEventType() == EditLocationEvent.EVENT_TYPE_DELETE) {
                 dataStorage.getLocations().remove(event.getLocation());
-                locationListController.refreshTable();
+                locationListController.forceUiUpdate();
             }
         });
     }
@@ -94,7 +103,7 @@ public class MainWindowController implements Initializable {
                 }
             }
 
-            switchToLocationsList();
+            openLocationsList(true);
         });
     }
 
@@ -109,7 +118,7 @@ public class MainWindowController implements Initializable {
                 openCurioEditor(event.getLocation(), event.getCurio());
             } else if (event.getEventType() == CurioEditingEvent.EVENT_TYPE_DELETE) {
                 dataStorage.getCurios().remove(event.getCurio());
-                locationListController.refreshTable();
+                locationListController.forceUiUpdate();
             }
         });
     }
@@ -147,7 +156,7 @@ public class MainWindowController implements Initializable {
                 }
             }
 
-            openCuriosList(event.getLocation());
+            openCuriosList(event.getLocation(), true);
         });
     }
 
@@ -156,53 +165,84 @@ public class MainWindowController implements Initializable {
         curioView = loader.load();
         curioViewController = loader.getController();
 
-        curioView.addEventHandler(ExperimentSelectedEvent.EVENT_TYPE, event -> switchToExperimentView(event.getExperiment()));
+        curioView.addEventHandler(ExperimentSelectedEvent.EVENT_TYPE, event -> openExperimentView(event.getExperiment()));
     }
 
     private void initialiseExperimentView() {
         // TODO method stub
     }
 
-    public void switchToLocationsList() {
-        contentPane.getChildren().setAll(locationList);
-        changeTitle("Locations");
+    private void switchUiElement(Parent element, String title) {
+        uiStack.push(element);
+        titleStack.push(title);
+
+        contentPane.getChildren().setAll(element);
+        changeTitle(title);
+    }
+
+    public void openLocationsList() {
+        openLocationsList(false);
+    }
+
+    private void openLocationsList(boolean goBack) {
+        if (goBack) {
+            locationListController.forceUiUpdate();
+            backOneLevel();
+        } else {
+            switchUiElement(locationList, "Locations");
+        }
     }
 
     public void openLocationEditor(Location location) {
-        contentPane.getChildren().setAll(locationEditor);
         locationEditorController.setLocation(location);
-        if (location == null) {
-            changeTitle("New location");
-        } else {
-            changeTitle("Edit " + location.getName());
-        }
+        switchUiElement(locationEditor, location == null ? "New location" : "Edit " + location.getName());
     }
 
-
     public void openCuriosList(Location location) {
-        contentPane.getChildren().setAll(curioList);
-        curioListController.setLocation(location);
-        changeTitle("Curios in " + location.getName());
+        openCuriosList(location, false);
+    }
+
+    private void openCuriosList(Location location, boolean goBack) {
+        if (goBack) {
+            curioListController.forceUiUpdate();
+            backOneLevel();
+        } else {
+            curioListController.setData(dataStorage, location);
+            switchUiElement(curioList, "Curios in " + location.getName());
+        }
     }
 
     public void openCurioEditor(Location currentLocation, Curio curio) {
-        contentPane.getChildren().setAll(curioEditor);
         curioEditorController.setData(dataStorage.getLocations(), currentLocation, curio);
-        if (curio == null) {
-            changeTitle("New curio");
-        } else {
-            changeTitle("Edit " + curio.getName());
-        }
+        switchUiElement(curioEditor, curio == null ? "New curio" : "Edit " + curio.getName());
     }
 
     public void openCurioView(Curio curio) {
-        contentPane.getChildren().setAll(curioView);
-        curioViewController.setCurio(curio);
-        changeTitle(curio.getName());
+        openCurioView(curio, false);
     }
 
-    private void switchToExperimentView(Experiment experiment) {
+    private void openCurioView(Curio curio, boolean goBack) {
+        if (goBack) {
+            curioViewController.forceUiUpdate();
+            backOneLevel();
+        } else {
+            curioViewController.setCurio(curio);
+            switchUiElement(curioView, curio.getName());
+        }
+    }
+
+    private void openExperimentView(Experiment experiment) {
         // TODO method stub
+    }
+
+    private void backOneLevel() {
+        if (uiStack.size() > 1) {
+            uiStack.pop();
+            contentPane.getChildren().setAll(uiStack.peek());
+
+            titleStack.pop();
+            changeTitle(titleStack.peek());
+        }
     }
 
     private void changeTitle(String title) {

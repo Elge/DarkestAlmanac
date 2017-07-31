@@ -69,7 +69,7 @@ public class GuiController {
         }
 
         controller.setDataStorage(dataStorage);
-        controller.switchToLocationsList();
+        controller.openLocationsList();
         this.stage.show();
     }
 

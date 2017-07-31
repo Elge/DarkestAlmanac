@@ -25,4 +25,7 @@
         </menus>
     </MenuBar>
     <Pane fx:id="contentPane"/>
+    <HBox>
+        <Button fx:id="backButton" text="&lt;-"/>
+    </HBox>
 </VBox>

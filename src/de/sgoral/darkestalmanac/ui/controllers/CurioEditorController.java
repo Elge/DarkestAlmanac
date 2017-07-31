@@ -53,10 +53,10 @@ public class CurioEditorController implements Initializable {
         this.locations = locations;
         this.currentLocation = currentLocation;
         this.curio = curio;
-        refreshView();
+        forceUiUpdate();
     }
 
-    public void refreshView() {
+    public void forceUiUpdate() {
         locationsList.getChildren().clear();
 
         for (Location location : locations) {

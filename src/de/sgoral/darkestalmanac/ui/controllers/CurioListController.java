@@ -142,16 +142,13 @@ public class CurioListController implements Initializable {
         return consumables;
     }
 
-    public void setDataStorage(DataStorage dataStorage) {
+    public void setData(DataStorage dataStorage, Location location) {
         this.dataStorage = dataStorage;
-    }
-
-    public void setLocation(Location location) {
         this.location = location;
-        refreshTable();
+        forceUiUpdate();
     }
 
-    private void refreshTable() {
+    public void forceUiUpdate() {
         dataTable.getItems().setAll(location.getCurios());
     }
 }
