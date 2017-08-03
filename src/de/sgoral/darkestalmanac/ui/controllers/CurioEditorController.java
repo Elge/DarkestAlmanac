@@ -2,7 +2,7 @@ package de.sgoral.darkestalmanac.ui.controllers;
 
 import de.sgoral.darkestalmanac.data.dataobjects.Curio;
 import de.sgoral.darkestalmanac.data.dataobjects.Location;
-import de.sgoral.darkestalmanac.events.CurioEditingEvent;
+import de.sgoral.darkestalmanac.events.CurioEditEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -27,7 +27,7 @@ public class CurioEditorController implements Initializable {
 
     @Override
     public void initialize(URL loc, ResourceBundle resources) {
-        cancel.setOnAction(event -> cancel.fireEvent(new CurioEditingEvent(CurioEditingEvent.EVENT_TYPE_CANCEL, this.currentLocation, curio)));
+        cancel.setOnAction(event -> cancel.fireEvent(new CurioEditEvent(CurioEditEvent.EVENT_TYPE_CANCEL, this.currentLocation, curio)));
         save.setOnAction(event -> {
             curio.setName(nameField.getText());
             // Set locations
@@ -45,7 +45,7 @@ public class CurioEditorController implements Initializable {
                 }
             }
 
-            save.fireEvent(new CurioEditingEvent(CurioEditingEvent.EVENT_TYPE_SAVE, this.currentLocation, curio));
+            save.fireEvent(new CurioEditEvent(CurioEditEvent.EVENT_TYPE_SAVE, this.currentLocation, curio));
         });
     }
 

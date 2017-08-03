@@ -1,7 +1,7 @@
 package de.sgoral.darkestalmanac.ui.controllers;
 
 import de.sgoral.darkestalmanac.data.dataobjects.Location;
-import de.sgoral.darkestalmanac.events.EditLocationEvent;
+import de.sgoral.darkestalmanac.events.LocationEditEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -26,12 +26,12 @@ public class LocationEditorController implements Initializable {
         save.setDefaultButton(true);
 
         cancel.setOnAction(event -> {
-            cancel.fireEvent(new EditLocationEvent(EditLocationEvent.EVENT_TYPE_CANCEL, null));
+            cancel.fireEvent(new LocationEditEvent(LocationEditEvent.EVENT_TYPE_CANCEL, null));
         });
 
         save.setOnAction(event -> {
             this.location.setName(nameField.getText());
-            save.fireEvent(new EditLocationEvent(EditLocationEvent.EVENT_TYPE_SAVE, this.location));
+            save.fireEvent(new LocationEditEvent(LocationEditEvent.EVENT_TYPE_SAVE, this.location));
         });
     }
 

@@ -1,7 +1,7 @@
 package de.sgoral.darkestalmanac.ui.controllers;
 
 import de.sgoral.darkestalmanac.data.dataobjects.*;
-import de.sgoral.darkestalmanac.events.CurioEditingEvent;
+import de.sgoral.darkestalmanac.events.CurioEditEvent;
 import de.sgoral.darkestalmanac.events.CurioSelectedEvent;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
@@ -49,19 +49,19 @@ public class CurioListController implements Initializable {
 
             {
                 MenuItem add = new MenuItem("Add curio");
-                add.setOnAction(event -> row.fireEvent(new CurioEditingEvent(CurioEditingEvent.EVENT_TYPE_NEW, this.location, new Curio())));
+                add.setOnAction(event -> row.fireEvent(new CurioEditEvent(CurioEditEvent.EVENT_TYPE_NEW, this.location, new Curio())));
                 emptyCM.getItems().add(add);
             }
 
             {
                 MenuItem add = new MenuItem("Add curio");
-                add.setOnAction(event -> row.fireEvent(new CurioEditingEvent(CurioEditingEvent.EVENT_TYPE_NEW, this.location, new Curio())));
+                add.setOnAction(event -> row.fireEvent(new CurioEditEvent(CurioEditEvent.EVENT_TYPE_NEW, this.location, new Curio())));
 
                 MenuItem edit = new MenuItem("Edit curio");
-                edit.setOnAction(event -> row.fireEvent(new CurioEditingEvent(CurioEditingEvent.EVENT_TYPE_EDIT, this.location, row.getItem())));
+                edit.setOnAction(event -> row.fireEvent(new CurioEditEvent(CurioEditEvent.EVENT_TYPE_EDIT, this.location, row.getItem())));
 
                 MenuItem delete = new MenuItem("Delete curio");
-                delete.setOnAction(event -> row.fireEvent(new CurioEditingEvent(CurioEditingEvent.EVENT_TYPE_DELETE, this.location, row.getItem())));
+                delete.setOnAction(event -> row.fireEvent(new CurioEditEvent(CurioEditEvent.EVENT_TYPE_DELETE, this.location, row.getItem())));
 
                 fullCM.getItems().addAll(add, edit, delete);
             }

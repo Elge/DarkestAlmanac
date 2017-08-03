@@ -72,10 +72,10 @@ public class MainWindowController implements Initializable {
         locationListController = loader.getController();
 
         locationList.addEventHandler(LocationSelectedEvent.EVENT_TYPE, event -> openCuriosList(event.getLocation()));
-        locationList.addEventHandler(EditLocationEvent.EVENT_TYPE_ROOT, event -> {
-            if (event.getEventType() == EditLocationEvent.EVENT_TYPE_NEW || event.getEventType() == EditLocationEvent.EVENT_TYPE_EDIT) {
+        locationList.addEventHandler(LocationEditEvent.EVENT_TYPE_ROOT, event -> {
+            if (event.getEventType() == LocationEditEvent.EVENT_TYPE_NEW || event.getEventType() == LocationEditEvent.EVENT_TYPE_EDIT) {
                 openLocationEditor(event.getLocation());
-            } else if (event.getEventType() == EditLocationEvent.EVENT_TYPE_DELETE) {
+            } else if (event.getEventType() == LocationEditEvent.EVENT_TYPE_DELETE) {
                 dataStorage.getLocations().remove(event.getLocation());
                 locationListController.forceUiUpdate();
             }
@@ -87,8 +87,8 @@ public class MainWindowController implements Initializable {
         locationEditor = loader.load();
         locationEditorController = loader.getController();
 
-        locationEditor.addEventHandler(EditLocationEvent.EVENT_TYPE_ROOT, event -> {
-            if (event.getEventType() == EditLocationEvent.EVENT_TYPE_SAVE) {
+        locationEditor.addEventHandler(LocationEditEvent.EVENT_TYPE_ROOT, event -> {
+            if (event.getEventType() == LocationEditEvent.EVENT_TYPE_SAVE) {
                 Location newValue = event.getLocation();
                 if (newValue.getId() == null) {
                     newValue.setId(dataStorage.generateId());
@@ -113,10 +113,10 @@ public class MainWindowController implements Initializable {
         curioListController = loader.getController();
 
         curioList.addEventHandler(CurioSelectedEvent.EVENT_TYPE, event -> openCurioView(event.getCurio()));
-        curioList.addEventHandler(CurioEditingEvent.EVENT_TYPE_ROOT, event -> {
-            if (event.getEventType() == CurioEditingEvent.EVENT_TYPE_NEW || event.getEventType() == CurioEditingEvent.EVENT_TYPE_EDIT) {
+        curioList.addEventHandler(CurioEditEvent.EVENT_TYPE_ROOT, event -> {
+            if (event.getEventType() == CurioEditEvent.EVENT_TYPE_NEW || event.getEventType() == CurioEditEvent.EVENT_TYPE_EDIT) {
                 openCurioEditor(event.getLocation(), event.getCurio());
-            } else if (event.getEventType() == CurioEditingEvent.EVENT_TYPE_DELETE) {
+            } else if (event.getEventType() == CurioEditEvent.EVENT_TYPE_DELETE) {
                 dataStorage.getCurios().remove(event.getCurio());
                 locationListController.forceUiUpdate();
             }
@@ -128,8 +128,8 @@ public class MainWindowController implements Initializable {
         curioEditor = loader.load();
         curioEditorController = loader.getController();
 
-        curioEditor.addEventHandler(CurioEditingEvent.EVENT_TYPE_ROOT, event -> {
-            if (event.getEventType() == CurioEditingEvent.EVENT_TYPE_SAVE) {
+        curioEditor.addEventHandler(CurioEditEvent.EVENT_TYPE_ROOT, event -> {
+            if (event.getEventType() == CurioEditEvent.EVENT_TYPE_SAVE) {
                 Curio newValue = event.getCurio();
 
                 if (newValue.getId() == null) {

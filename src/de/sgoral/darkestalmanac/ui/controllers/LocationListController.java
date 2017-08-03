@@ -2,7 +2,7 @@ package de.sgoral.darkestalmanac.ui.controllers;
 
 import de.sgoral.darkestalmanac.data.dataobjects.DataStorage;
 import de.sgoral.darkestalmanac.data.dataobjects.Location;
-import de.sgoral.darkestalmanac.events.EditLocationEvent;
+import de.sgoral.darkestalmanac.events.LocationEditEvent;
 import de.sgoral.darkestalmanac.events.LocationSelectedEvent;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
@@ -36,19 +36,19 @@ public class LocationListController implements Initializable {
 
             {
                 MenuItem add = new MenuItem("Add location");
-                add.setOnAction(event -> row.fireEvent(new EditLocationEvent(EditLocationEvent.EVENT_TYPE_NEW, new Location())));
+                add.setOnAction(event -> row.fireEvent(new LocationEditEvent(LocationEditEvent.EVENT_TYPE_NEW, new Location())));
                 emptyCM.getItems().addAll(add);
             }
 
             {
                 MenuItem add = new MenuItem("Add location");
-                add.setOnAction(event -> row.fireEvent(new EditLocationEvent(EditLocationEvent.EVENT_TYPE_NEW, new Location())));
+                add.setOnAction(event -> row.fireEvent(new LocationEditEvent(LocationEditEvent.EVENT_TYPE_NEW, new Location())));
 
                 MenuItem edit = new MenuItem("Edit location");
-                edit.setOnAction(event -> row.fireEvent(new EditLocationEvent(EditLocationEvent.EVENT_TYPE_EDIT, row.getItem())));
+                edit.setOnAction(event -> row.fireEvent(new LocationEditEvent(LocationEditEvent.EVENT_TYPE_EDIT, row.getItem())));
 
                 MenuItem delete = new MenuItem("Delete location");
-                delete.setOnAction(event -> row.fireEvent(new EditLocationEvent(EditLocationEvent.EVENT_TYPE_DELETE, row.getItem())));
+                delete.setOnAction(event -> row.fireEvent(new LocationEditEvent(LocationEditEvent.EVENT_TYPE_DELETE, row.getItem())));
 
                 fullCM.getItems().addAll(add, edit, delete);
             }
