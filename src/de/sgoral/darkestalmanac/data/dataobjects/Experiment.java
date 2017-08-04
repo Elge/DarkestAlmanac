@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Experiment implements Serializable {
 
-    private int id;
+    private Integer id;
     private int consumableId;
     private transient Consumable consumable;
     private List<Result> results = new ArrayList<>();
@@ -28,11 +28,11 @@ public class Experiment implements Serializable {
         this.results.add(result);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

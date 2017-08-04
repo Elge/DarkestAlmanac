@@ -1,6 +1,7 @@
 package de.sgoral.darkestalmanac.ui.controllers;
 
 import de.sgoral.darkestalmanac.data.dataobjects.*;
+import de.sgoral.darkestalmanac.events.ExperimentSelectedEvent;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -66,7 +68,7 @@ public class CurioController implements Initializable {
         });
 
         this.experimentsTable.setRowFactory(param -> {
-            return new TableRow<Consumable>() {
+            TableRow<Consumable> row = new TableRow<Consumable>() {
                 @Override
                 protected void updateItem(Consumable consumable, boolean empty) {
                     super.updateItem(consumable, empty);
@@ -110,6 +112,19 @@ public class CurioController implements Initializable {
                     this.setStyle("-fx-background-color: " + color);
                 }
             };
+
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
+                    for (Experiment experiment : curio.getExperiments()) {
+                        if (experiment.getConsumable() == row.getItem()) {
+                            row.fireEvent(new ExperimentSelectedEvent(experiment));
+                            break;
+                        }
+                    }
+                }
+            });
+
+            return row;
         });
 
     }

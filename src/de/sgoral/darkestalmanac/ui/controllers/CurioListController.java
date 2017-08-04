@@ -81,6 +81,10 @@ public class CurioListController implements Initializable {
             return row;
         });
 
+        MenuItem add = new MenuItem("Add curio");
+        add.setOnAction(event -> dataTable.fireEvent(new CurioEditEvent(CurioEditEvent.EVENT_TYPE_NEW, this.location, new Curio())));
+        dataTable.setContextMenu(new ContextMenu(add));
+
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         usefulColumn.setCellValueFactory(param -> {
             StringBuilder usefulConsumables = new StringBuilder();

@@ -1,9 +1,7 @@
 package de.sgoral.darkestalmanac.ui;
 
 import de.sgoral.darkestalmanac.control.PreferencesUtil;
-import de.sgoral.darkestalmanac.data.dataobjects.Consumable;
 import de.sgoral.darkestalmanac.data.dataobjects.DataStorage;
-import de.sgoral.darkestalmanac.data.dataobjects.Effect;
 import de.sgoral.darkestalmanac.events.MenuItemActionEvent;
 import de.sgoral.darkestalmanac.events.TitleChangeRequestedEvent;
 import de.sgoral.darkestalmanac.ui.controllers.MainWindowController;
@@ -43,11 +41,7 @@ public class GuiController {
     public void start(boolean firstRun) {
         File storageFile = PreferencesUtil.getStorageFile();
         if (storageFile == null) {
-            DataStorage dataStorage = new DataStorage();
-            dataStorage.addConsumable(new Consumable(dataStorage.generateId(), "None"));
-            dataStorage.addEffect(new Effect(dataStorage.generateId(), "None", false, false));
-
-            initialiseMainWindow(dataStorage, firstRun);
+            initialiseMainWindow(DataStorage.createNewDataStorage(), firstRun);
         } else if (storageFile.canRead()) {
             initialiseMainWindow(PreferencesUtil.loadStorageData(storageFile), firstRun);
         } else {
@@ -100,6 +94,12 @@ public class GuiController {
                     restart();
                 }
             } else if (event.getEventType() == MenuItemActionEvent.EVENT_TYPE_SAVE) {
+                if (PreferencesUtil.getStorageFile() == null) {
+                    File storageFile = SavingAndLoadingGui.promptForNewFile(stage.getOwner(), initialDirectory, initialFilename, extension, extensionDescription);
+                    if (storageFile != null) {
+                        PreferencesUtil.setStorageFile(storageFile);
+                    }
+                }
                 PreferencesUtil.saveStorageData(PreferencesUtil.getStorageFile(), dataStorage);
             } else if (event.getEventType() == MenuItemActionEvent.EVENT_TYPE_SAVEAS) {
                 File storageFile = SavingAndLoadingGui.promptForNewFile(stage.getOwner(), initialDirectory, initialFilename,

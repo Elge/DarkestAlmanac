@@ -68,6 +68,10 @@ public class LocationListController implements Initializable {
             return row;
         });
 
+        MenuItem add = new MenuItem("Add location");
+        add.setOnAction(event -> dataTable.fireEvent(new LocationEditEvent(LocationEditEvent.EVENT_TYPE_NEW, new Location())));
+        dataTable.setContextMenu(new ContextMenu(add));
+
         zoneColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         curioCountColumn.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getCurios().size()));
     }

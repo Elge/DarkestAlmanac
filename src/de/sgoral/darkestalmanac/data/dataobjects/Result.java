@@ -76,4 +76,8 @@ public class Result implements Serializable {
         this.times++;
     }
 
+    public void decrementTimes() {
+        this.times--;
+    }
+
 }

@@ -157,7 +157,7 @@ public class TestPersistenceUtil {
 
         Experiment experiment1 = barnacleCrustedChest.getExperiments().get(0);
         assertNotNull(experiment1);
-        assertEquals(17, experiment1.getId());
+        assertEquals(Integer.valueOf(17), experiment1.getId());
         assertNull(experiment1.getConsumable());
         assertNotNull(experiment1.getResults());
         assertEquals(2, experiment1.getResults().size());
@@ -178,7 +178,7 @@ public class TestPersistenceUtil {
 
         Experiment experiment2 = barnacleCrustedChest.getExperiments().get(1);
         assertNotNull(experiment2);
-        assertEquals(12, experiment2.getId());
+        assertEquals(Integer.valueOf(12), experiment2.getId());
         assertEquals(shovel, experiment2.getConsumable());
         assertNotNull(experiment2.getResults());
         assertEquals(1, experiment2.getResults().size());
@@ -205,7 +205,7 @@ public class TestPersistenceUtil {
 
         Experiment experiment3 = heirloomChest.getExperiments().get(0);
         assertNotNull(experiment3);
-        assertEquals(18, experiment3.getId());
+        assertEquals(Integer.valueOf(18), experiment3.getId());
         assertNull(experiment3.getConsumable());
         assertNotNull(experiment3.getResults());
         assertEquals(3, experiment3.getResults().size());
@@ -233,7 +233,7 @@ public class TestPersistenceUtil {
 
         Experiment experiment4 = heirloomChest.getExperiments().get(1);
         assertNotNull(experiment4);
-        assertEquals(19, experiment4.getId());
+        assertEquals(Integer.valueOf(19), experiment4.getId());
         assertEquals(key, experiment4.getConsumable());
         assertNotNull(experiment4.getResults());
         assertEquals(1, experiment4.getResults().size());

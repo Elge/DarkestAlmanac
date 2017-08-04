@@ -44,6 +44,8 @@ public class MainWindowController implements Initializable {
     private CurioListController curioListController;
     private CurioController curioViewController;
     private CurioEditorController curioEditorController;
+    private Parent experimentEditor;
+    private ExperimentEditorController experimentEditorController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -57,7 +59,7 @@ public class MainWindowController implements Initializable {
         initialiseCuriosList();
         initialiseCurioView();
         initialiseCurioEditor();
-        initialiseExperimentView();
+        initialiseExperimentEditor();
     }
 
     public void setDataStorage(DataStorage dataStorage) {
@@ -165,11 +167,35 @@ public class MainWindowController implements Initializable {
         curioView = loader.load();
         curioViewController = loader.getController();
 
-        curioView.addEventHandler(ExperimentSelectedEvent.EVENT_TYPE, event -> openExperimentView(event.getExperiment()));
+        curioView.addEventHandler(ExperimentSelectedEvent.EVENT_TYPE, event -> openExperimentEditor(event.getExperiment()));
     }
 
-    private void initialiseExperimentView() {
-        // TODO method stub
+    private void initialiseExperimentEditor() {
+        GuiLoaderUtil.GuiLoader<ExperimentEditorController> loader = GuiLoaderUtil.getInstance().getExperimentEditor();
+        experimentEditor = loader.load();
+        experimentEditorController = loader.getController();
+
+        experimentEditor.addEventHandler(ExperimentEditEvent.EVENT_TYPE_ROOT, event -> {
+            Curio curio = event.getCurio();
+            if (event.getEventType() == ExperimentEditEvent.EVENT_TYPE_SAVE) {
+                Experiment newValue = event.getExperiment();
+
+                if (newValue.getId() == null) {
+                    newValue.setId(dataStorage.generateId());
+                    curio.getExperiments().add(newValue);
+                } else {
+                    for (Experiment experiment : curio.getExperiments()) {
+                        if (experiment.getId() == newValue.getId()) {
+                            experiment.setConsumable(newValue.getConsumable());
+                            experiment.setResults(newValue.getResults());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            openCurioView(curio, true);
+        });
     }
 
     private void switchUiElement(Parent element, String title) {
@@ -231,8 +257,10 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    private void openExperimentView(Experiment experiment) {
-        // TODO method stub
+    private void openExperimentEditor(Experiment experiment) {
+        experimentEditorController.setData(dataStorage, experiment);
+        switchUiElement(experimentEditor, experiment == null ? "New experiment" :
+                "Edit experiment with " + experiment.getConsumable().getName());
     }
 
     private void backOneLevel() {

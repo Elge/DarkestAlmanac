@@ -30,6 +30,7 @@ public class SavingAndLoadingGui {
 
     /**
      * Returns true if the user would like to save.
+     *
      * @return
      */
     public static boolean askIfSave() {

@@ -22,6 +22,13 @@ public class DataStorage implements Serializable {
         consumables = new ArrayList<>();
     }
 
+    public static DataStorage createNewDataStorage() {
+        DataStorage dataStorage = new DataStorage();
+        dataStorage.addConsumable(new Consumable(dataStorage.generateId(), "None"));
+        dataStorage.addEffect(new Effect(dataStorage.generateId(), "None", false, false));
+        return dataStorage;
+    }
+
     public List<Location> getLocations() {
         return locations;
     }

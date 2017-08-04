@@ -15,6 +15,7 @@ public class GuiLoaderUtil {
     private final GuiLoader<CurioListController> curioList;
     private final GuiLoader<CurioEditorController> curioEditor;
     private final GuiLoader<CurioController> curio;
+    private final GuiLoader<ExperimentEditorController> experimentEditor;
 
 
     private GuiLoaderUtil() {
@@ -24,6 +25,7 @@ public class GuiLoaderUtil {
         this.curioList = new GuiLoader<>("CurioList.fxml");
         this.curioEditor = new GuiLoader<>("CurioEditor.fxml");
         this.curio = new GuiLoader<>("Curio.fxml");
+        this.experimentEditor = new GuiLoader<>("ExperimentEditor.fxml");
     }
 
     public static GuiLoaderUtil getInstance() {
@@ -56,6 +58,10 @@ public class GuiLoaderUtil {
 
     public GuiLoader<CurioController> getCurio() {
         return curio;
+    }
+
+    public GuiLoader<ExperimentEditorController> getExperimentEditor() {
+        return experimentEditor;
     }
 
     public class GuiLoader<ControllerClass> {
